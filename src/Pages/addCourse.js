@@ -63,7 +63,7 @@ export default function CourseAdd() {
           <div class="mt-2">
             <textarea id="about" name="desc" rows="3" onChange={handleChange} class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"></textarea>
           </div>
-          <p class="mt-3 text-sm leading-6 text-gray-600">Write a few sentences about yourself.</p>
+          <p class="mt-3 text-sm leading-6 text-gray-600">Describe the course</p>
         </div>
         <div class="col-span-full">
         <label for="about" class="block text-sm font-medium leading-6 text-gray-900">Start Date</label>

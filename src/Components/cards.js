@@ -1,13 +1,21 @@
+import { useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 export default function MyCards(props) {
-
-  function goto(){
-    console.log('h')
-  }
+  const navigate = useNavigate();
+  // function GotoCourse(event){
+  //   event.preventDefault(); // Prevents the form from submitting and refreshing the page
+  
+  //   // Perform any necessary login logic here
+  
+  //   // Navigate to the home page
+  //   navigate('/CourseHome', { name: props.name, desc: props.desc, start: props.start, end: props.end });
+  // }
+  const { name, desc, start, end } = props;
   //console.log(props.m1);
   return (
     <>
-    
-    <button onClick={goto} className="max-w-md mx-10 rounded overflow-hidden shadow-lg m-10 bg-White rounded-3xl">
+    <Link to={'/CourseHome'} state={{ name: props.name,desc:props.desc,start:props.start,end:props.end}}>
+      <button  className="max-w-md mx-10 rounded overflow-hidden shadow-lg m-10 bg-White rounded-3xl">
         <div class="text-Black font-SF text-xl mb-2 m-2 font-bold">{props.name}</div>
         {/* <img class="w-full p-3 rounded-3xl" src="" alt="Sunset in the mountains" /> */}
         <div class="bg-backGray m-2 p-px rounded-xl">
@@ -39,6 +47,8 @@ export default function MyCards(props) {
           
         </div>
       </button>
+    </Link>
+    
     </>
 
   );
