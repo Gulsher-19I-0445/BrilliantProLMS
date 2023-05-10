@@ -1,11 +1,12 @@
 import { Fragment } from 'react'
+import { useNavigate } from 'react-router-dom';
 
  import { Disclosure, Menu, Transition } from '@headlessui/react'
  import { Bars3Icon, BellIcon, XMarkIcon } from '@heroicons/react/24/outline'
 // import { Bars3Icon, BellIcon, XMarkIcon } from 'heroicons'
 const navigation = [
   { name: 'Dashboard', href: '#', current: true },
-  { name: 'Team', href: '#', current: false },
+  { name: 'Courses', href: '#',onPress:'movetoCourses', current: false },
   { name: 'Projects', href: '#', current: false },
   { name: 'Calendar', href: '#', current: false },
 ]
@@ -15,6 +16,32 @@ function classNames(...classes) {
 }
 
 export default function AdminNavbar() {
+  const navigate = useNavigate();
+  function movetoCourses(event) {
+    event.preventDefault(); // Prevents the form from submitting and refreshing the page
+  
+    // Perform any necessary login logic here
+  
+    // Navigate to the home page
+    navigate('/Courses');
+  }
+  function movetoHome(event) {
+    event.preventDefault(); // Prevents the form from submitting and refreshing the page
+  
+    // Perform any necessary login logic here
+  
+    // Navigate to the home page
+    navigate('/Home');
+  }
+
+  function addCourses(event) {
+    event.preventDefault(); // Prevents the form from submitting and refreshing the page
+  
+    // Perform any necessary login logic here
+  
+    // Navigate to the home page
+    navigate('/AddCourses');
+  }
   return (
     <Disclosure as="nav" className="bg-gray-800">
       {({ open }) => (
@@ -47,19 +74,38 @@ export default function AdminNavbar() {
                 </div>
                 <div className="hidden sm:ml-6 sm:block">
                   <div className="flex space-x-4">
-                    {navigation.map((item) => (
+                   
                       <a
-                        key={item.name}
-                        href={item.href}
-                        className={classNames(
-                          item.current ? 'bg-gray-900 text-white' : 'text-gray-300 hover:bg-gray-700 hover:text-white',
-                          'rounded-md px-3 py-2 text-sm font-medium'
-                        )}
-                        aria-current={item.current ? 'page' : undefined}
+                        key="Dashboard"
+                        
+                        onClick={movetoHome}
+                        className='text-gray-300 hover:bg-gray-700 hover:text-white rounded-md px-3 py-2 text-sm font-medium'
+                        
+                        // aria-current={item.current ? 'page' : undefined}
                       >
-                        {item.name}
+                        Dashboard
                       </a>
-                    ))}
+                      <a
+                        key="Courses"
+                        
+                        onClick={movetoCourses}
+                        className='text-gray-300 hover:bg-gray-700 hover:text-white rounded-md px-3 py-2 text-sm font-medium'
+                        
+                        // aria-current={item.current ? 'page' : undefined}
+                      >
+                        Courses
+                      </a>
+                      <a
+                        key="AddCourses"
+                        
+                        onClick={addCourses}
+                        className='text-gray-300 hover:bg-gray-700 hover:text-white rounded-md px-3 py-2 text-sm font-medium'
+                        
+                        // aria-current={item.current ? 'page' : undefined}
+                      >
+                        Add a Course
+                      </a>
+                    
                   </div>
                 </div>
               </div>
