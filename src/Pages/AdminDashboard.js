@@ -1,7 +1,28 @@
 import DashDetails from "../Components/DashDetails";
 import AdminNavbar from "../Components/adminNavbar";
-
+import { useState, useEffect } from 'react';
 export default function AdminDashboard() {
+    
+
+
+  const [people, setPeople] = useState([]);
+  const [courses, setCourses] = useState([]);
+
+  useEffect(() => {
+    console.log("HJHJHJHJH")
+    fetch('http://localhost:3000/admin/totalLearners')
+      .then(response => response.json())
+      .then(data => {
+        setPeople(data);
+        console.log(data)
+        // setCourses(data.courses);
+      })
+      .catch(error => {
+        console.error('Error fetching data:', error);
+      });
+  }, []);
+  // rest of the component code
+
     return (
         <>
             <AdminNavbar></AdminNavbar>

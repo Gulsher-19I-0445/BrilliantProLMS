@@ -19,7 +19,7 @@ app.use('/',admin2 )
 
 
 // Connect to MongoDB
-mongoose.connect("mongodb://localhost:27017/brilliantPro", {
+mongoose.connect("mongodb://127.0.0.1:27017/brilliantPro", {
   useNewUrlParser: true,
   useUnifiedTopology: true,
 });

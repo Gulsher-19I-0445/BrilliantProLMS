@@ -22,7 +22,7 @@ var upload = multer({ storage: storage })
 const MongoClient = require("mongodb").MongoClient;
 
 // Connection url
-const url = "mongodb://localhost:27017";
+const url = "mongodb://127.0.0.1:27017";
 // Database Name
 const dbName = "brilliantPro";
 
