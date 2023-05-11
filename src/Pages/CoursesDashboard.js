@@ -31,7 +31,7 @@ export default function CourseDash(){
                 <ul class="grid grid-cols-5 gap-10 place-items-center h-18 ...">
       {products.map(product => (
         <li key={product.id}>
-          <MyCards name={product.name} desc={product.desc} start={product.start} end={product.end} ></MyCards>
+          <MyCards mykey= {product.CourseID} name={product.name} desc={product.desc} start={product.start} end={product.end} ></MyCards>
         </li>
       ))}
     </ul>

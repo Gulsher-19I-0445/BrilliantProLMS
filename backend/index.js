@@ -14,6 +14,8 @@ app.use(bodyParser.json());
 mongoose.connect(url, { useNewUrlParser: true, useUnifiedTopology: true });
 
 const learnerSchema = new mongoose.Schema({
+  CourseID:String,
+
   fname: String,
   lname: String,
   email: String,
@@ -21,6 +23,7 @@ const learnerSchema = new mongoose.Schema({
 });
 
 const courseSchema = new mongoose.Schema({
+  CourseID:String,
     name: String,
     desc: String,
     start: Date,
@@ -33,6 +36,7 @@ const Course = mongoose.model('courses', courseSchema);
 //##########################################################################################
 app.post('/addLearner', function(req, res) {
   const learner = new Learner({
+    
     fname: req.body.fname,
     lname: req.body.lname,
     email: req.body.email,
@@ -65,38 +69,54 @@ mongoose.connection.once('open', function() {
 });
 //##########################################################################################
 app.post('/addCourse', function(req, res) {
-    const course = new Course({
-      name: req.body.name,
-      desc: req.body.desc,
-      start: req.body.start,
-      end: req.body.end,
-      enrolled:0,
-    });
-  
-    course.save()
-    .then(() => {
-      console.log('Course added to database');
-      res.send('Course added to database');
-    })
-    .catch((err) => {
-      console.error(err);
-      res.status(500).send('An error occurred while adding the course to the database');
-    });
-  
+  const course = new Course({
+    CourseID:req.body.CourseID,
+    name: req.body.name,
+    desc: req.body.desc,
+    start: req.body.start,
+    end: req.body.end,
+    enrolled:0,
   });
-  
-  // Create the database and learners collection if they don't already exist
-  mongoose.connection.once('open', function() {
-    mongoose.connection.db.listCollections({name: 'courses'})
-      .next(function(err, info) {
-        if (!info) {
-          mongoose.connection.db.createCollection('courses', function(err, collection) {
-            if (err) throw err;
-            console.log("courses collection created!");
-          });
-        }
-      });
+
+  course.save()
+  .then(() => {
+    console.log('Course added to database');
+    res.send('Course added to database');
+  })
+  .catch((err) => {
+    console.error(err);
+    res.status(500).send('An error occurred while adding the course to the database');
   });
+
+});
+
+// Create the database and learners collection if they don't already exist
+mongoose.connection.once('open', function() {
+  mongoose.connection.db.listCollections({name: 'courses'})
+    .next(function(err, info) {
+      if (!info) {
+        mongoose.connection.db.createCollection('courses', function(err, collection) {
+          if (err) throw err;
+          console.log("courses collection created!");
+        });
+      }
+    });
+});
+  
+
+// Create the database and learners collection if they don't already exist
+mongoose.connection.once('open', function() {
+  mongoose.connection.db.listCollections({name: 'courses'})
+    .next(function(err, info) {
+      if (!info) {
+        mongoose.connection.db.createCollection('courses', function(err, collection) {
+          if (err) throw err;
+          console.log("courses collection created!");
+        });
+      }
+    });
+});
+
 
 //##########################################################################################
 

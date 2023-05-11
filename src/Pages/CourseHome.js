@@ -7,7 +7,7 @@ Modal.setAppElement("#root");
 
 export default function CourseHome(route) {
   const location = useLocation();
-  const { name } = location.state;
+  const { CourseID,name,desc,start,end } = location.state;
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [announcement,setannouce]=useState();
   const openModal = () => {
@@ -17,18 +17,33 @@ export default function CourseHome(route) {
   const closeModal = () => {
     setIsModalOpen(false);
   };
-//   const handleSubmit = (e) => {
-//     e.preventDefault();
-//     console.log(learnerData)
-//     axios.post('http://localhost:8000/addCourse', announcment)
-//       .then(res => console.log(res.data))
-//       .catch(err => console.log(err));
-//   };
+  function submitForm(event) {
+    event.preventDefault();
+    
+    const form = event.target;
+    const formData = new FormData(form);
+  
+    fetch('http://localhost:8000', {
+      method: 'POST',
+      body: formData
+    })
+    .then(response => {
+      if (!response.ok) {
+        throw new Error('Network response was not ok');
+      }
+      return response.json();
+    })
+    .then(data => {
+      console.log('Success:', data);
+      // do something with the response data, like close the modal and refresh the page
+    })
+    .catch(error => {
+      console.error('Error:', error);
+      // handle the error, like showing an error message to the user
+    });
+  }
 
-//   const handleChange = (e) => {
-//     //console.log(e.target.value)
-//     setannouce({e.name:e.value});
-//   };
+ 
   return (
     <>
       <AdminNavbar />
@@ -36,13 +51,13 @@ export default function CourseHome(route) {
         <header className="bg-white shadow ">
           <div className="mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8">
             <h1 className="text-3xl font-bold tracking-tight text-gray-900">
-              {name}
+              {CourseID+'  '+name}
             </h1>
             <button
               onClick={openModal}
               className="inline-flex items-center justify-center rounded-md p-2 text-gray-400 mt-2 hover:bg-gray-700 hover:text-white focus:outline-none focus:ring-2 focus:ring-inset focus:ring-white"
             >
-              Add course
+              Add announcement
             </button>
           </div>
         </header>
@@ -56,7 +71,18 @@ export default function CourseHome(route) {
           <div class="mt-2">
             <textarea id="about" name="desc" rows="3"  class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"></textarea>
           </div>
-          <p class="mt-3 text-sm leading-6 text-gray-600">Enter announcement</p>
+          <button
+              onClick={openModal}
+              className="inline-flex items-center justify-center rounded-md p-2 text-gray-400 mt-2 hover:bg-gray-700 hover:text-white focus:outline-none focus:ring-2 focus:ring-inset focus:ring-white"
+            >
+              Add announcement
+            </button>
+            <button
+              onClick={closeModal}
+              className="inline-flex items-center justify-center rounded-md p-2 text-gray-400 mt-2 hover:bg-gray-700 hover:text-white focus:outline-none focus:ring-2 focus:ring-inset focus:ring-white"
+            >
+              Close
+            </button>
         </div>
           </form>
         </Modal>
