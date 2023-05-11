@@ -14,8 +14,9 @@
 */
 import { PhotoIcon, UserCircleIcon } from '@heroicons/react/24/solid'
 import AdminNavbar from '../Components/adminNavbar'
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import axios from 'axios';
+
 // import input from '@tailwindcss/forms'
 export default function LearnerAdd() {
 
@@ -24,9 +25,19 @@ export default function LearnerAdd() {
         lname:'',
         email: '',
         password:'',
-
+      course:'',
       });
-    
+      
+      const [courses, setCourses] = useState([]);
+
+      useEffect(() => {
+        axios.get('http://localhost:8000/GetCourses')
+          .then(res => {
+            const courseIds = res.data.map(courses => courses.CourseID);
+            setCourses(courseIds);
+          })
+          .catch(err => console.log(err));
+      }, []);
       const handleSubmit = (e) => {
         e.preventDefault();
         console.log(learnerData)
@@ -57,6 +68,7 @@ export default function LearnerAdd() {
             <input type="text" name="fname" id="fname" autocomplete="given-name" onChange={handleChange} class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"/>
           </div>
         </div>
+      </div>
 
         <div class="sm:col-span-3">
           <label for="last-name" class="block text-sm font-medium leading-6 text-gray-900">Last name</label>
@@ -64,7 +76,18 @@ export default function LearnerAdd() {
             <input type="text" name="lname" id="lname" autocomplete="family-name" onChange={handleChange} class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"/>
           </div>
         </div>
-
+        <div class="mt-10 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
+        <div class="sm:col-span-3">
+          <label for="first-name" class="block text-sm font-medium leading-6 text-gray-900">Course ID</label>
+          <div class="mt-2">
+          <select id="course" name="course" onChange={handleChange} class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
+            <option onChange={handleChange} name='course' value="">Select a course</option>
+            {courses.map(courseId => (
+              <option key={courseId} value={courseId}>{courseId}</option>
+            ))}
+          </select>
+          </div>
+        </div>
         <div class="sm:col-span-4">
           <label for="email" class="block text-sm font-medium leading-6 text-gray-900">Email address</label>
           <div class="mt-2">

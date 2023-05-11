@@ -9,7 +9,10 @@ export default function CourseHome(route) {
   const location = useLocation();
   const { CourseID,name,desc,start,end } = location.state;
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isModalOpenLearn, setIsModalOpenLearn] = useState(false);
   const [announcement,setannouce]=useState();
+  const [alllearner,setalllearner]=useState();
+  //--------------------------------------------------------
   const openModal = () => {
     setIsModalOpen(true);
   };
@@ -17,6 +20,15 @@ export default function CourseHome(route) {
   const closeModal = () => {
     setIsModalOpen(false);
   };
+  //--------------------------------------------------------
+  const openModalLearner = () => {
+    setIsModalOpenLearn(true);
+  };
+
+  const closeModallearner = () => {
+    setIsModalOpenLearn(false);
+  };
+  //--------------------------------------------------------
   function submitForm(event) {
     event.preventDefault();
     
@@ -43,7 +55,26 @@ export default function CourseHome(route) {
     });
   }
 
- 
+  //----------------------------------------------------------------
+  const fetchLearners = () => {
+    const nn='CS4555'
+    fetch(`http://localhost:8000/GetLearnerByName?name=${CourseID}`)
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error("Network response was not ok");
+        }
+        return response.json();
+      })
+      .then((data) => {
+        console.log("Success:", data);
+        setalllearner(data);
+      })
+      .catch((error) => {
+        console.error("Error:", error);
+      });
+      openModalLearner();
+    }
+  //----------------------------------------------------------------
   return (
     <>
       <AdminNavbar />
@@ -58,6 +89,12 @@ export default function CourseHome(route) {
               className="inline-flex items-center justify-center rounded-md p-2 text-gray-400 mt-2 hover:bg-gray-700 hover:text-white focus:outline-none focus:ring-2 focus:ring-inset focus:ring-white"
             >
               Add announcement
+            </button>
+            <button
+              onClick={fetchLearners}
+              className="inline-flex items-center justify-center rounded-md p-2 text-gray-400 mt-2 hover:bg-gray-700 hover:text-white focus:outline-none focus:ring-2 focus:ring-inset focus:ring-white"
+            >
+              ViewLearner
             </button>
           </div>
         </header>
@@ -85,6 +122,26 @@ export default function CourseHome(route) {
             </button>
         </div>
           </form>
+        </Modal>
+        <Modal isOpen={isModalOpenLearn} onRequestClose={closeModallearner}>
+        <ul role="list" className="divide-y divide-gray-100">
+        {alllearner && alllearner.length > 0 ? (
+  alllearner.map((person) => (
+    <li key={person.email} className="flex justify-between gap-x-6 py-5">
+      <div className="flex gap-x-4">
+        {/* <img className="h-12 w-12 flex-none rounded-full bg-gray-50" src={person.imageUrl} alt="" /> */}
+        <div className="min-w-0 flex-auto">
+          <p className="text-sm font-semibold leading-6 text-black">{person.fname}</p>
+          <p className="mt-1 truncate text-xs leading-5 text-black">{person.email}</p>
+        </div>
+      </div>
+    </li>
+  ))
+) : (
+  <p>No learners found.</p>
+)}
+
+    </ul>
         </Modal>
       </div>
     </>

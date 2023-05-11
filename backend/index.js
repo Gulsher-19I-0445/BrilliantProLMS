@@ -36,7 +36,7 @@ const Course = mongoose.model('courses', courseSchema);
 //##########################################################################################
 app.post('/addLearner', function(req, res) {
   const learner = new Learner({
-    
+    CourseID: req.body.course,
     fname: req.body.fname,
     lname: req.body.lname,
     email: req.body.email,
@@ -124,6 +124,20 @@ app.get('/GetCourses', function(req, res) {
     Course.find()
       .then(function(courses) {
         res.send(courses);
+      })
+      .catch(function(err) {
+        console.error(err);
+        res.status(500).send('An error occurred while retrieving courses from the database');
+      });
+  });
+
+
+  app.get('/GetLearnerByName', function(req, res) {
+    const n = req.query.name;
+    console.log(n)
+    Learner.find({CourseID:n})
+      .then(function(learner) {
+        res.send(learner);
       })
       .catch(function(err) {
         console.error(err);
