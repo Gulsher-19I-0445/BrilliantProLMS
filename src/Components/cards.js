@@ -10,11 +10,11 @@ export default function MyCards(props) {
   //   // Navigate to the home page
   //   navigate('/CourseHome', { name: props.name, desc: props.desc, start: props.start, end: props.end });
   // }
-  const { name, desc, start, end } = props;
+  const { key,name, desc, start, end } = props;
   //console.log(props.m1);
   return (
     <>
-    <Link to={'/CourseHome'} state={{ name: props.name,desc:props.desc,start:props.start,end:props.end}}>
+    <Link to={'/CourseHome'} state={{ CourseID:props.mykey,name: props.name,desc:props.desc,start:props.start,end:props.end}}>
       <button  className="max-w-md mx-10 rounded overflow-hidden shadow-lg m-10 bg-White rounded-3xl">
         <div class="text-Black font-SF text-xl mb-2 m-2 font-bold">{props.name}</div>
         {/* <img class="w-full p-3 rounded-3xl" src="" alt="Sunset in the mountains" /> */}
