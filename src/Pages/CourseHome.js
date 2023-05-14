@@ -151,11 +151,14 @@ export default function CourseHome(route) {
           </div>
         </header>
         <main>
+        <h1 className="text-3xl font-bold tracking-tight text-gray-900 mx-auto max-w-7xl py-6 sm:px-6 lg:px-8">
+              Announcements
+            </h1>
           <div className="mx-auto max-w-7xl py-6 sm:px-6 lg:px-8">
             <ul role="list" className="divide-y divide-gray-100">
               {Showannouncement && Showannouncement.length > 0 ? (
                 Showannouncement.map((person) => (
-                  <li key={person.email} className="flex justify-between gap-x-6 py-5 shadow-md">
+                  <li key={person.email} className="flex justify-between gap-x-6 py-5 shadow-md rounded-lg">
                     <div className="flex gap-x-4">
                       {/* <img className="h-12 w-12 flex-none rounded-full bg-gray-50" src={person.imageUrl} alt="" /> */}
                       <div className="min-w-0 flex-auto">
@@ -171,6 +174,9 @@ export default function CourseHome(route) {
 
             </ul>
           </div>
+          <h1 className="text-3xl font-bold tracking-tight text-gray-900 mx-auto max-w-7xl py-6 sm:px-6 lg:px-8">
+              Assessments
+            </h1>
           <Quiz></Quiz>
         </main>
         <Modal isOpen={isModalOpen} onRequestClose={closeModal}>

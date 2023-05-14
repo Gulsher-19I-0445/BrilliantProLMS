@@ -4,15 +4,35 @@ import { useNavigate } from 'react-router-dom';
 
 export default function LogIn() {
   const navigate = useNavigate();
-
+  
   function handleSubmit(event) {
-    event.preventDefault(); // Prevents the form from submitting and refreshing the page
-
-    // Perform any necessary login logic here
-
-    // Navigate to the home page
-    navigate('/Home');
+    event.preventDefault();
+  
+    const email = event.target.email.value;
+    const password = event.target.password.value;
+  
+    fetch(`http://localhost:8000/GetLearnerByEmailPassword?email=${email}&password=${password}`)
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error("Network response was not ok");
+        }
+        return response.json();
+      })
+      .then((data) => {
+        console.log("Success:", data);
+        const learner = data;
+        console.log(learner)
+        if (learner.role === "admin") {
+          navigate("/Home");
+        } else {
+          navigate("/LearnerDashboard");
+        }
+      })
+      .catch((error) => {
+        console.error("Error:", error);
+      });
   }
+  
 
   return (
     <>

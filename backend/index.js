@@ -19,7 +19,8 @@ const learnerSchema = new mongoose.Schema({
   fname: String,
   lname: String,
   email: String,
-  password: String
+  password: String,
+  role: String,
 });
 
 const courseSchema = new mongoose.Schema({
@@ -151,7 +152,22 @@ app.get('/GetCourses', function(req, res) {
         res.status(500).send('An error occurred while retrieving courses from the database');
       });
   });
+//------------------------------------------------------------------------------------------------------------------
+app.get('/GetLearnerByEmailPassword', function(req, res) {
+  const n = req.query.email;
+  const pass=req.query.password;
+  console.log(n)
+  Learner.findOne({ email: n, password: pass })
+    .then(function(learner) {
+      res.send(learner);
+    })
+    .catch(function(err) {
+      console.error(err);
+      res.status(500).send('An error occurred while retrieving courses from the database');
+    });
+});
 
+//------------------------------------------------------------------------------------------------------------------
 
   app.get('/GetLearnerByName', function(req, res) {
     const n = req.query.name;
