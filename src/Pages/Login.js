@@ -22,6 +22,11 @@ export default function LogIn() {
         console.log("Success:", data);
         const learner = data;
         console.log(learner)
+        window.sessionStorage.setItem("email", learner.email);
+      window.sessionStorage.setItem("name", learner.name);
+      window.sessionStorage.setItem("isAdmin", learner.role);
+      window.sessionStorage.setItem("CourseiD",learner.CourseID)
+
         if (learner.role === "admin") {
           navigate("/Home");
         } else {
@@ -64,7 +69,7 @@ export default function LogIn() {
             </div>
 
             <div>
-              <button type="submit" class="flex w-full justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">Sign in</button>
+              <button id = "SubButton" type="submit" class="flex w-full justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">Sign in</button>
             </div>
           </form>
 

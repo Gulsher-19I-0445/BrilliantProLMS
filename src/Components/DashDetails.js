@@ -28,7 +28,7 @@ const people = [
     
   ]
   
-  export default function DashDetails() {
+  export default function DashDetails(props) {
     return (
       <ul role="list" className="divide-y divide-gray-100">
         
@@ -41,7 +41,7 @@ const people = [
               </div>
             </div>
             <div className="hidden sm:flex sm:flex-col sm:items-end">
-              <p className="text-sm leading-6 text-gray-900">{/* props go here */}13</p>
+              <p className="text-sm leading-6 text-gray-900">{/* props go here */}{props.cC}</p>
               {/* {person.lastSeen ? (
                 <p className="mt-1 text-xs leading-5 text-gray-500">
                   Last seen <time dateTime={person.lastSeenDateTime}>{person.lastSeen}</time>
@@ -60,12 +60,12 @@ const people = [
             <div className="flex gap-x-4">
               <img className="h-12 w-12 flex-none rounded-full bg-gray-50" src='https://www.clipartmax.com/png/middle/309-3099036_completed-course-finished-work-icon-download.png' alt="" />
               <div className="min-w-0 flex-auto">
-                <p className="text-sm font-semibold leading-6 text-gray-900">Number of Completed Courses</p>
+                <p className="text-sm font-semibold leading-6 text-gray-900">Number Assignments</p>
                 
               </div>
             </div>
             <div className="hidden sm:flex sm:flex-col sm:items-end">
-              <p className="text-sm leading-6 text-gray-900">{/* props go here */}13</p>
+              <p className="text-sm leading-6 text-gray-900">{props.aC}</p>
               {/* {person.lastSeen ? (
                 <p className="mt-1 text-xs leading-5 text-gray-500">
                   Last seen <time dateTime={person.lastSeenDateTime}>{person.lastSeen}</time>
@@ -89,7 +89,7 @@ const people = [
               </div>
             </div>
             <div className="hidden sm:flex sm:flex-col sm:items-end">
-              <p className="text-sm leading-6 text-gray-900">{/* props go here */}13</p>
+              <p className="text-sm leading-6 text-gray-900">{props.lC}</p>
               {/* {person.lastSeen ? (
                 <p className="mt-1 text-xs leading-5 text-gray-500">
                   Last seen <time dateTime={person.lastSeenDateTime}>{person.lastSeen}</time>

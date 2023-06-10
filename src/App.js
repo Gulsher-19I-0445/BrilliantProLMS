@@ -8,6 +8,7 @@ import CourseAdd from './Pages/addCourse';
 import LearnerAdd from './Pages/addLearner';
 import CourseHome from './Pages/CourseHome';
 import LearnDashboard from './Pages/LearrnDashboard';
+import LearnrCourseDash from './Pages/LearnerCourses';
 function App() {
   return (
     <div>
@@ -23,6 +24,7 @@ function App() {
         <Route exact path='/Addlearner' element = {<LearnerAdd></LearnerAdd>}></Route>
         <Route exact path='/CourseHome' element = {<CourseHome></CourseHome>}></Route>
         <Route exact path='/LearnerDashboard' element = {<LearnDashboard></LearnDashboard>}></Route>
+        <Route exact path='/LearnerCourses' element = {<LearnrCourseDash></LearnrCourseDash>}></Route>
         
         
     </Routes>

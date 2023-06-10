@@ -5,6 +5,8 @@ import { useLocation } from "react-router-dom";
 import Modal from "react-modal";
 import axios from 'axios';
 import Quiz from "../Components/showQuizes";
+import LearnNavbar from "../Components/learnerNav";
+
 Modal.setAppElement("#root");
 
 export default function CourseHome(route) {
@@ -123,13 +125,15 @@ export default function CourseHome(route) {
   //----------------------------------------------------------------
   return (
     <>
-      <AdminNavbar />
+
+      {window.sessionStorage.getItem('isAdmin')==='admin' ? <AdminNavbar /> : <LearnNavbar/>}
       <div className="min-h-full">
         <header className="bg-white shadow ">
           <div className="mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8">
             <h1 className="text-3xl font-bold tracking-tight text-gray-900">
               {CourseID + '  ' + name}
             </h1>
+            {window.sessionStorage.getItem('isAdmin')==='admin' ? <div>
             <button
               onClick={openModal}
               className="inline-flex items-center justify-center rounded-md p-2 text-gray-400 mt-2 hover:bg-gray-700 hover:text-white focus:outline-none focus:ring-2 focus:ring-inset focus:ring-white"
@@ -148,6 +152,8 @@ export default function CourseHome(route) {
             >
               Add assessment
             </button>
+            </div>:<></>}
+            
           </div>
         </header>
         <main>
@@ -177,7 +183,7 @@ export default function CourseHome(route) {
           <h1 className="text-3xl font-bold tracking-tight text-gray-900 mx-auto max-w-7xl py-6 sm:px-6 lg:px-8">
               Assessments
             </h1>
-          <Quiz></Quiz>
+          <Quiz courseD={CourseID}></Quiz>
         </main>
         <Modal isOpen={isModalOpen} onRequestClose={closeModal}>
           <form>
@@ -222,7 +228,7 @@ export default function CourseHome(route) {
               </button>
             </div>
           </form> */}
-          <AddQuestion></AddQuestion>
+          <AddQuestion courseid={CourseID}></AddQuestion>
         </Modal>
         <Modal isOpen={isModalOpenLearn} onRequestClose={closeModallearner}>
           <ul role="list" className="divide-y divide-gray-100">

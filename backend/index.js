@@ -38,6 +38,7 @@ const courseSchema = new mongoose.Schema({
     });
 
     const questSchema = new mongoose.Schema({
+      CourseID:String,
       title: String,
       questions: [{
         text: String,
@@ -152,6 +153,19 @@ app.get('/GetCourses', function(req, res) {
         res.status(500).send('An error occurred while retrieving courses from the database');
       });
   });
+
+  app.get('/GetCourseByID', function(req, res) {
+    const n = req.query.CourseID;
+    Course.findOne({CourseID:n})
+      .then(function(courses) {
+        console.log(courses)
+        res.send(courses);
+      })
+      .catch(function(err) {
+        console.error(err);
+        res.status(500).send('An error occurred while retrieving courses from the database');
+      });
+  });
 //------------------------------------------------------------------------------------------------------------------
 app.get('/GetLearnerByEmailPassword', function(req, res) {
   const n = req.query.email;
@@ -234,12 +248,13 @@ app.get('/GetAnnounce', function(req, res) {
 //--------------------------------------------------------
 
 app.post('/MCQ', async (req, res) => {
+  const CourseID = req.query.name;
   try {
     // Parse the survey data from the request body
     const { title, questions } = req.body;
 
     // Create a new survey document
-    const survey = new MCQs({ title, questions });
+    const survey = new MCQs({ CourseID,title, questions });
 
     // Save the survey to the database
     await survey.save();
@@ -254,9 +269,9 @@ app.post('/MCQ', async (req, res) => {
 
 //---------------------------------------------------------
 app.get('/getMCQ', function(req, res) {
-  //const n = req.query.name;
-  //console.log(n)
-  MCQs.find()
+  const n = req.query.Course;
+  console.log('ggg'+n)
+  MCQs.find({CourseID:n})
     .then(function(MCQ) {
       res.send(MCQ);
     })
@@ -264,6 +279,36 @@ app.get('/getMCQ', function(req, res) {
       console.error(err);
       res.status(500).send('An error occurred while retrieving courses from the database');
     });
+});
+
+
+
+app.get('/assignmentsCount', async (req, res) => {
+  try {
+    const count = await MCQs.countDocuments();
+    res.status(200).json({ count });
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).send('Server Error');
+  }
+});
+app.get('/CourseCount', async (req, res) => {
+  try {
+    const count = await Course.countDocuments();
+    res.status(200).json({ count });
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).send('Server Error');
+  }
+});
+app.get('/learnCount', async (req, res) => {
+  try {
+    const count = await Learner.countDocuments();
+    res.status(200).json({ count });
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).send('Server Error');
+  }
 });
 app.listen(8000, function() {
   console.log(`Server running on port 8000`);

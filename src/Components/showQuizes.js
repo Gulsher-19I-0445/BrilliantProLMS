@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import Modal from 'react-modal';
 
-const Quiz = () => {
+const Quiz = (props) => {
   const [surveys, setSurveys] = useState([]);
   const [selectedSurvey, setSelectedSurvey] = useState(null);
   const [showModal, setShowModal] = useState(false);
@@ -16,7 +16,7 @@ const Quiz = () => {
   };
 
   useEffect(() => {
-    axios.get('http://localhost:8000/getMCQ')
+    axios.get(`http://localhost:8000/getMCQ?Course=${props.courseD}`)
       .then(response => {
         setSurveys(response.data);
       })
@@ -49,12 +49,12 @@ const Quiz = () => {
         </div>
       ))}
       <Modal isOpen={showModal} onRequestClose={closeModal}>
-        <h2>{selectedSurvey && selectedSurvey.title}</h2>
+        <h2 className="block flex-1 border-0 bg-transparent py-1.5 pl-1 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-sm sm:leading-6">{selectedSurvey && selectedSurvey.title}</h2>
         {selectedSurvey && (
           <form>
             {selectedSurvey.questions.map((question, index) => (
               <div key={index}>
-                <h3>{question.text}</h3>
+                <h1 className="block flex-1 border-0 bg-transparent py-1.5 pl-1 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-sm sm:leading-6">{question.text}</h1>
                 {question.options.map((option, index) => (
                   <div key={index}>
                     <input type="checkbox" name={option.value} checked={option.checked} />
@@ -63,7 +63,7 @@ const Quiz = () => {
                 ))}
               </div>
             ))}
-            <button type="submit">Submit</button>
+            <button className="-flex items-inlinecenter justify-center rounded-md p-2 text-gray-700 my-4 bg-gray-400 hover:bg-gray-700 hover:text-white focus:outline-none focus:ring-2 focus:ring-inset focus:ring-white" type="submit">Submit</button>
           </form>
         )}
       </Modal>

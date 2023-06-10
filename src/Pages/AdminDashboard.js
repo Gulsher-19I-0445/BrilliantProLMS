@@ -7,19 +7,28 @@ export default function AdminDashboard() {
 
   const [people, setPeople] = useState([]);
   const [courses, setCourses] = useState([]);
+  const [counts, setCounts] = useState({});
 
   useEffect(() => {
-    console.log("HJHJHJHJH")
-    fetch('http://localhost:3000/admin/totalLearners')
-      .then(response => response.json())
-      .then(data => {
-        setPeople(data);
-        console.log(data)
-        // setCourses(data.courses);
-      })
-      .catch(error => {
-        console.error('Error fetching data:', error);
-      });
+    const fetchCounts = async () => {
+      try {
+        const [assignmentsCountRes, courseCountRes, learnCountRes] = await Promise.all([
+          fetch('http://localhost:8000/assignmentsCount'),
+          fetch('http://localhost:8000/CourseCount'),
+          fetch('http://localhost:8000/learnCount')
+        ]);
+        const [assignmentsCount, courseCount, learnCount] = await Promise.all([
+          assignmentsCountRes.json(),
+          courseCountRes.json(),
+          learnCountRes.json()
+        ]);
+        setCounts({ assignmentsCount: assignmentsCount.count, courseCount: courseCount.count, learnCount: learnCount.count });
+      } catch (error) {
+        console.error(error.message);
+      }
+    };
+
+    fetchCounts();
   }, []);
   // rest of the component code
 
@@ -37,7 +46,7 @@ export default function AdminDashboard() {
                 <div class="mx-auto max-w-7xl py-6 sm:px-6 lg:px-8"></div>
             </main>
             <div class="mx-auto max-w-7xl py-6 sm:px-6 lg:px-8">
-                <DashDetails></DashDetails>
+                <DashDetails aC={counts.assignmentsCount} lC={counts.learnCount} cC={counts.courseCount}></DashDetails>
             </div>
         </>
     );
