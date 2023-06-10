@@ -4,15 +4,40 @@ import { useNavigate } from 'react-router-dom';
 
 export default function LogIn() {
   const navigate = useNavigate();
-
+  
   function handleSubmit(event) {
-    event.preventDefault(); // Prevents the form from submitting and refreshing the page
+    event.preventDefault();
+  
+    const email = event.target.email.value;
+    const password = event.target.password.value;
+  
+    fetch(`http://localhost:8000/GetLearnerByEmailPassword?email=${email}&password=${password}`)
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error("Network response was not ok");
+        }
+        return response.json();
+      })
+      .then((data) => {
+        console.log("Success:", data);
+        const learner = data;
+        console.log(learner)
+        window.sessionStorage.setItem("email", learner.email);
+      window.sessionStorage.setItem("name", learner.name);
+      window.sessionStorage.setItem("isAdmin", learner.role);
+      window.sessionStorage.setItem("CourseiD",learner.CourseID)
 
-    // Perform any necessary login logic here
-
-    // Navigate to the home page
-    navigate('/Home');
+        if (learner.role === "admin") {
+          navigate("/Home");
+        } else {
+          navigate("/LearnerDashboard");
+        }
+      })
+      .catch((error) => {
+        console.error("Error:", error);
+      });
   }
+  
 
   return (
     <>
@@ -44,7 +69,7 @@ export default function LogIn() {
             </div>
 
             <div>
-              <button type="submit" class="flex w-full justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">Sign in</button>
+              <button id = "SubButton" type="submit" class="flex w-full justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">Sign in</button>
             </div>
           </form>
 

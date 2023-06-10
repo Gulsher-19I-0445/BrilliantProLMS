@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 
-export default function AddQuestion() {
+export default function AddQuestion(props) {
     const [showModal, setShowModal] = useState(false);
     const [title, setTitle] = useState('');
     const [questions, setQuestions] = useState([]);
@@ -42,7 +42,8 @@ export default function AddQuestion() {
         event.preventDefault();
       
         try {
-          const response = await fetch('http://localhost:8000/MCQ', {
+            console.log(props.courseid)
+          const response = await fetch(`http://localhost:8000/MCQ?name=${props.courseid}`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ title, questions }),
@@ -60,7 +61,7 @@ export default function AddQuestion() {
 
     return (
         <div>
-            <button onClick={() => setShowModal(true)}>Open Modal</button>
+            <button onClick={() => setShowModal(true)}>Open Assessment</button>
             {showModal && (
                 <div className="modal">
                     <div className="modal-content">

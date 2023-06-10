@@ -1,6 +1,20 @@
 import { useNavigate } from 'react-router-dom';
 import { Link } from 'react-router-dom';
 export default function MyCards(props) {
+  const startDate = new Date(props.start);
+const endDate = new Date(props.end);
+
+const formattedStartDate = startDate.toLocaleDateString("en-US", {
+  year: "numeric",
+  month: "long",
+  day: "numeric"
+});
+
+const formattedEndDate = endDate.toLocaleDateString("en-US", {
+  year: "numeric",
+  month: "long",
+  day: "numeric"
+});
   const navigate = useNavigate();
   // function GotoCourse(event){
   //   event.preventDefault(); // Prevents the form from submitting and refreshing the page
@@ -32,7 +46,7 @@ export default function MyCards(props) {
               Start Date
             </p>
             <p class="text-gray-700 text-base text-Black ml-auto px-2 block  w-28 overflow-hidden">
-              {props.start.split('T')[0]}
+              {formattedStartDate}
             </p>
           </div>
           <div class="px-6 py-4 flex bg-gray-1 m-3 divide-x-[2px] rounded-xl">
@@ -41,7 +55,7 @@ export default function MyCards(props) {
               End Date
             </p>
             <p class="text-gray-700 text-base text-Black ml-auto px-2 block  w-28 overflow-hidden">
-              {props.end.split('T')[0]}
+              {formattedEndDate}
             </p>
           </div>
           
